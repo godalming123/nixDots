@@ -1,0 +1,54 @@
+; === fancy clock widget ===
+(defwidget clock [] 
+			(box :class "genwin"
+                 :orientation "h"
+                 :space-evenly "false"
+                 :vexpand "false"
+                 :hexpand "false"
+				(label :class "time_hour" :valign "start" :wrap "true" :limit-width "25" :text HOUR)
+				(label :class "time_min" :valign "start" :wrap "true" :limit-width "25" :text MIN)
+				(box :orientation "v" :spacing "0" :space-evenly "false" :vexpand "false" :hexpand "false"
+					(label :class "time_mer" :halign "start" :wrap "true" :limit-width "25" :text MER)
+					(label :class "time_day" :halign "end" :wrap "true" :limit-width "25" :text DAY)
+				)
+            )
+)
+
+; === time info ===
+(defwidget time-widget []
+    (box :orientation "v" :space-evenly false
+        (clock)
+        (cal)
+    )
+)
+
+; === resoarce info ===
+(defwidget resorces-widget []
+    (box :orientation "h" :space-evenly false
+        (cpu-big)
+        (disk-big)
+        (brightness-big)
+        (battery-big)
+        (ram-big)
+    )
+)
+
+; === resoarce info items
+(defwidget cpu-big []
+  {EWW_CPU.avg}
+)
+(defwidget disk-big []
+    {(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100}
+)
+(defwidget brightness-big []
+    brightness
+)
+(defwidget battery-big []
+    battery
+)
+(defwidget volume-big []
+    volume
+)
+(defwidget ram-big []
+    {EWW_RAM.used_mem_perc}
+)

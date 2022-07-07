@@ -1,0 +1,369 @@
+
+; ======================
+; === DEFINE WINDOWS ===
+; ======================
+
+; === define bar ===
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :width "100%"
+                      :height "30px"
+                      :anchor "bottom center")
+  :exclusive true
+  :stacking "overlay"
+  (centerbox :orientation "h"
+    (leftStuff)
+    (centerStuff)
+    (rightStuff)
+  )
+)
+
+; === define background information windows ===
+
+(defwindow time
+  :monitor 0
+  :geometry (geometry :width "310px"
+                      :height "340px"
+                      :anchor "top right"
+                      :y "30px"
+                      :x "30px")
+  :exclusive true
+  :stacking "bg"
+  (time-widget :class "bg-info")
+)
+
+(defwindow resorces
+  :monitor 0
+  :geometry (geometry :width "310px"
+                      :height "250px"
+                      :anchor "top right"
+                      :y "390px"
+                      :x "30px")
+  :exclusive true
+  :stacking "bg"
+  (resorces-widget)
+)
+
+; === define app menu ===
+
+(defwindow menu
+  :monitor 0
+  :geometry (geometry :width "300px"
+                      :height "500px"
+                      :anchor "bottom left"
+                      :y "10px"
+                      :x "10px")
+  :stacking "overlay"
+  :focusable true
+(searchapps))
+
+; === define calendar ===
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :width "240px"
+                      :height "160px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "40px")
+  :stacking "overlay"
+(cal))
+
+; === define updates window ===
+
+(defwindow updates
+  :monitor 0
+  :geometry (geometry :width "240px"
+                      :height "230px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "110px")
+  :stacking "overlay"
+(updates-menu))
+
+; === define notifucations window ===
+
+(defwindow notifucations
+  :monitor 0
+  :geometry (geometry :width "260px"
+                      :height "300px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "10px")
+  :stacking "overlay"
+(notifucations))
+
+; === define wifi window ===
+
+(defwindow wifi
+  :monitor 0
+  :geometry (geometry :width "260px"
+                      :height "300px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "118px")
+  :stacking "overlay"
+(wifi))
+
+; === window for wallpaper ===
+
+(defwindow background
+  :monitor 0
+  :geometry (geometry :width "100%"
+                      :height "100%"
+                      :anchor "center")
+  :stacking "bg"
+(box :class "background-image" :valign "fill" :halign "fill"))
+
+; === window for system info ===
+
+(defwindow sys-info
+  :monitor 0
+  :geometry (geometry :width "600px"
+                      :height "150px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "227px")
+  :stacking "overlay"
+(system-info))
+
+; === define settings menu ===
+
+(defwindow settings
+  :monitor 0
+  :geometry (geometry :width "700px"
+                      :height "80%"
+                      :anchor "center center"
+            )
+  :stacking "overlay"
+  :focusable true
+(settings-menu))
+
+; === center ===
+(defwidget centerStuff []
+    ""
+)
+
+; ==================
+; === VARRIABLES ===
+; ==================
+
+; === app list ===
+(defpoll search_listen :interval "1s" "cat ./search-items.txt")
+
+; === charge ===
+(defpoll battery-runner :interval "15s" "scripts/battery.sh")
+(defpoll battery :interval "15s" "cat scripts/battery-charge.txt")
+(defpoll battery-status :interval "15s" "cat scripts/battery-status.txt")
+(defpoll notify-battery :interval "20m" "scripts/notify-battery.sh")
+
+; === volume ===
+(defpoll volume :interval "1s" "scripts/getvol.sh")
+
+; === time vars
+(defpoll time :interval "60s" "date '+%d/%m/%y %H:%M'")
+
+(defpoll HOUR :interval "600s" "date +'%I'")
+(defpoll MIN :interval "600s" "date +'%M'")
+(defpoll MER :interval "600s" "date +'%p'")
+(defpoll DAY :interval "600s" "date +'%A'")
+
+; === brightness ===
+(defpoll brightness :interval "1s" "scripts/brightness.sh")
+
+; === wifi ===
+(defpoll wifi-name :interval "1m" "./scripts/wifi.sh --ESSID")
+
+; === disk ===
+(defpoll disk-usage :interval "5m" "echo $(df | grep / | awk '{ print  }' | sed 's/[^0-9]//g' )")
+
+; === updates ===
+(defpoll updates-runner :interval "1h" "./scripts/updates.sh")
+(defpoll updates :interval "5m" "cat ./scripts/updates.txt")
+(defpoll updates-notifier :interval "24h" "./scripts/notify-updates.sh")
+
+
+; =================
+; === BAR ITEMS ===
+; =================
+
+; === left ===
+(defwidget leftStuff []
+  (button :tooltip "Menu - Show favouroute apps - super" :halign "start" :class "menu-button btn"
+          :onclick "eww close updates sys-info notifucations wifi calendar; eww open --toggle menu"
+    (image :path "./icons/dark/feather.png" :image-height 18)
+  )
+)
+
+; === right ===
+(defwidget rightStuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (box :onclick "eww close updates menu notifucations calendar wifi; eww open --toggle sys-info" :orientation "h" :space-evenly false
+        ; volume
+        (imic :tooltip "Volume: ${volume}%"
+              :icon "./icons/dark/audio.png"
+              :value volume
+              :onchange "amixer -D pulse set Master {}%")
+        ; brightness
+        (imic :tooltip "Brightness: ${brightness}%"
+              :icon "./icons/dark/brightness.png"
+              :value brightness
+              :onchange "light -S {}")
+        ; ram
+        (imic :tooltip "RAM: ${EWW_RAM.used_mem_perc}%"
+              :icon "./icons/dark/ram.png"
+              :value {EWW_RAM.used_mem_perc}
+              :onchange "")
+        ; cpu
+        (imic :tooltip "CPU: ${EWW_CPU.avg}%"
+              :icon "./icons/dark/cpu.png"
+              :value {EWW_CPU.avg}
+              :onchange "")
+        ; disk
+        (imic :tooltip "Disk: ${(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100}%"
+              :icon "./icons/dark/disk.png"
+              :value {(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100}
+              :onchange "")
+        ; battery
+        (imic :tooltip "${battery}% battery ${battery-status == "Charging" ? "and charging" : ""}"
+              :icon "./icons/dark/battery${battery-status == "Charging" ? "-charging" : ""}.png"
+              :value battery
+              :onchange "")
+    )
+    ; wifi
+    (button :tooltip "${wifi-name == "" ? "Not connected" : "Connected to ${wifi-name} "}" :class "btn" :onclick "eww close updates sys-info menu notifucations calendar; eww open --toggle wifi"
+        (image :path "./icons/dark/wifi.png" :image-height 18)
+    )
+    ; updates
+    ;${updates == 0 ? "" : ""}
+    (button :tooltip "You have ${updates} updates" :class "btn" :onclick "eww close wifi sys-info menu notifucations calendar; eww open --toggle updates"
+      (box :orientation "h" :space-evenly false
+        (image :path "./icons/dark/downloads.png" :image-height 14)
+        updates
+      )
+    )
+
+    ; calendar
+    (button :tooltip "The date is ${time}" :class "btn" :onclick "eww close updates sys-info menu wifi notifucations; eww open --toggle calendar" time)
+    ; notifucations menu
+    (button :tooltip "shows notifucations"  :class "btn notifucations" :onclick "eww close updates sys-info menu wifi calendar; eww open --toggle notifucations" "notifucations")
+  )
+)
+
+; ===============
+; === WIDGETS ===
+; ===============
+
+; === calendar ===
+(defwidget cal []
+  (calendar :halign "center" :valign "center" :class "cal")
+)
+
+; === system info ===
+(defwidget system-info []
+    "system info"
+)
+
+; === updates menu ===
+(defwidget updates-menu []
+    (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+      "You have ${updates} updates"
+      (button :class "btn-shape btn-color${updates == 0 ? "-inactive" : ""} btn-big" :halign "center" :onclick "eww close updates; alacritty -e paru &" "get updates")
+    )
+)
+
+; === app search ===
+(defwidget searchapps []
+    (box :orientation "h" :space-evenly false :class "search-win" :valign "fill"
+      (centerbox :orientation "v" :class "sidemenu-btns"
+        (box :orientation "v" :space-evenly false
+          (button :valign "start" :class "btn" :onclick "eww close menu; eww open settings"                       (image :path "./icons/dark/settings.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; notify-send software 'opens software'"                       (image :path "./icons/dark/software.png" :image-height 23))
+        )
+        (box :orientation "v" :space-evenly false
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Documents &"                                    (image :path "./icons/dark/docs.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Downloads &"                                    (image :path "./icons/dark/downloads.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Pictures &"                                     (image :path "./icons/dark/landscape.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Music &"                                        (image :path "./icons/dark/music.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Videos &"                                       (image :path "./icons/dark/recorder.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Desktop &"                                      (image :path "./icons/dark/desktop.png" :image-height 23))
+        )
+        (box :orientation "v"  :space-evenly false  :valign "end"
+          (button :valign "start" :class "btn" :onclick "systemctl shutdown"                                      (image :path "./icons/dark/shutdown.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "reboot"                                                  (image :path "./icons/dark/restart.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "killall wayfire"                                         (image :path "./icons/dark/logout.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu & swaylock -c 000000 & systemctl suspend &" (image :path "./icons/dark/moon.png" :image-height 23)); we need to close the menu so it does not steal our keyboard from swaylock
+        )
+      )
+      (box :orientation "v" :space-evenly false :class "search-win" :valign "fill" :halign "fill"
+        (input :class "search-bar" :onchange "~/.config/eww/scripts/search.sh {}")
+        (literal :vexpand "true" :halign "fill" :valign "fill" :class "app-container" :content search_listen)
+        ; "TODO: app menu"
+      )
+      
+    )
+)
+
+; === metric with icon ===
+(defwidget imic [tooltip icon value onchange]
+  (box :space-evenly false :tooltip tooltip :orientation "h"
+    (image :path icon :image-height 18)
+    (metric :value value :onchange onchange :label "")
+  )
+)
+
+; === metric ===
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+; === notificutaions
+(defwidget notifucations []
+  "notifucations"  
+)
+
+; === wifi
+(defwidget wifi []
+  "wifi"  
+)
+
+; =====================
+; === SETTINGS MENU ===
+; =====================
+
+(defwidget settings-menu []
+  (box :valign "fill" :halign "fill" :space-evenly false :orientation "v"
+    ; === app header ===
+    (centerbox :orientation "h" :class "dialog-headerbar"
+      (image :path "./icons/dark/settings.png" :halign "start" :image-height 23)
+      (label :halign "center" :text "SETTINGS" :class "bold")
+      (button :halign "end" :class "btn round" :onclick "eww close settings" (image :path "./icons/dark/close.png" :image-height 15))
+    )
+    ; === app content ===
+    (box :space-evenly false :orientation "h"
+      ; = sidebar =
+      (box :width 200 :halign "fill" :valign "start" :space-evenly false :orientation "h"
+        (label :class "bold" :text "Sidebar")
+      )
+      ; = config page =
+      (box :valign "fill" :halign "fill" :space-evenly false :orientation "v"
+        (label :class "bold" :text "ABOUT")
+        (label :text "Bar + system info on desktop + menu + settings: eww
+WM:                                             wayfire
+Wallpaper:                                      https://wallpapercave.com/w/wp3363794
+")
+      )
+    )
+  )
+)
+
+

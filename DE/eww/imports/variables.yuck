@@ -1,0 +1,51 @@
+; === bar stacking ===
+(defpoll barStacking :interval "1m" "cat ./scripts/bar-stacking.txt")
+
+; === brightness ===
+(defvar brightness "")
+(defvar bright "false")
+
+; === volume ===
+(defvar volume "")
+
+; === app list ===
+(defvar search_listen "")
+
+; === charge ===
+(defpoll battery :interval "5s" "cat /sys/class/power_supply/BAT0/capacity")
+(defpoll battery-status :interval "1s" "cat /sys/class/power_supply/BAT0/status")
+(defpoll notify-battery :interval "1m" "~/.config/eww/scripts/notify-battery.sh") ; this will not run since the variable is not being used
+
+(defwindow bat-run
+	:monitor 0
+	:height 0
+	:width 0
+	notify-battery
+)
+
+; === time vars
+(defpoll time :interval "60s" "date '+%d/%m/%y %H:%M'")
+
+(defpoll HOUR :interval "10m" "date +'%I'")
+(defpoll MIN :interval "10m" "date +'%M'")
+(defpoll MER :interval "10m" "date +'%p'")
+(defpoll DAY :interval "10m" "date +'%A'")
+
+; === wifi ===
+(defpoll wifi-name :interval "15s" "./scripts/wifi.sh ESSID")
+(defpoll wifi-enabled :interval "15s" "./scripts/wifi.sh ENABLED")
+(defpoll wifi-networks :interval "1m" "./scripts/wifi.sh LIST-FORMAT")
+
+; === disk ===
+(defpoll disk-usage :interval "10m" "echo $(df | grep / | awk '{ print $5 }' | sed 's/[^0-9]//g' )")
+
+; === updates ===
+(defpoll updates :interval "12h" "~/.config/eww/scripts/updates.sh; cat ./scripts/updates.txt")
+(defpoll updates-notifier :interval "24h" "~/.config/scripts/notify-updates.sh") ; this will not run since the variable is not being used
+
+(defwindow update-run
+	:monitor 0
+	:height 0
+	:width 0
+	updates-notifier
+)

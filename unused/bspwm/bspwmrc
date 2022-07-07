@@ -1,0 +1,37 @@
+#! /bin/sh
+
+# =========================================================
+# startup
+# =========================================================
+
+picom --experimental-backends &
+pgrep -x sxhkd > /dev/null || sxhkd &
+volumeicon &
+blueberry-tray &
+nitrogen --restore &
+~/.config/polybar/launch.sh &
+
+# =========================================================
+# options
+# =========================================================
+
+bspc monitor HDMI-1 -d 1 2 3 4 5 6 7 & #HDMI
+bspc monitor eDP-1 -d 8 9 10 & #laptop screen
+
+bspc config border_width        2 &
+bspc config window_gap          10 &
+
+bspc config borderless_monocle true &
+bspc config single_monocle     true &
+bspc config gapless_monocle    false &
+
+bspc config focused_border_color "#008c77" &
+bspc config normal_border_color  "#2f343f" &
+
+bspc config split_ratio          0.52 &
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on &
+bspc rule -a Chromium desktop='^2' &
+bspc rule -a mplayer2 state=floating &
+bspc rule -a Kupfer.py focus=on &
+bspc rule -a Screenkey manage=off

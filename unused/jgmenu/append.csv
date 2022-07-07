@@ -1,0 +1,19 @@
+Configure,^checkout(config),config
+
+^sep()
+
+User/power,^checkout(user),system-shutdown
+About (opens in browser),xdg-open https://jgmenu.github.io/index.html
+
+^tag(user)
+Suspend (cmd+x),dm-tool switch-to-greeter & systemctl -i suspend,system-log-out
+Lock/switch user,dm-tool switch-to-greeter,system-lock-screen
+Logout,bspc quit
+Reboot,systemctl -i reboot,system-reboot
+Poweroff,systemctl -i poweroff,system-shutdown
+
+^tag(config)
+Wallpaper (nitrogen),  nitrogen
+Display's (arandr),    arandr
+Window Icon's (plank), plank --preferences
+Theme,                 lxappearance

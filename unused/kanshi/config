@@ -1,0 +1,13 @@
+profile moniterAndLaptop {
+	output eDP-1 position 300,1080
+	output HDMI-A-1 mode 1920x1080@75Hz position 0,0
+}
+
+profile laptop {
+	output eDP-1 position 0,0
+}
+
+
+profile moniter {
+	output HDMI-A-1 mode 1920x1080@75Hz position 0,0
+}

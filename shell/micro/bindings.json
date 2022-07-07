@@ -1,0 +1,12 @@
+{
+    "Alt-/": "lua:comment.comment",
+    "CtrlUnderscore": "lua:comment.comment",
+    "Ctrl-e": "CommandMode",
+    "Alt-e": "command:vsplit,command:term",
+    "Ctrl-f": "lua:filemanager.toggle_tree,NextSplit,Quit",
+    "Ctrl-p": "lua:filemanager.toggle_tree",
+    "Ctrl-r": "lua:filemanager.rename_at_cursor",
+    "Ctrl-Delete": "lua:filemanager.prompt_delete_at_cursor",
+    "Ctrl-n": "lua:filemanager.new_dir",
+    "F5": "command:reload"
+}

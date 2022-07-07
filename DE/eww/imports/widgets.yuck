@@ -1,0 +1,123 @@
+; === calendar ===
+(defwidget cal []
+  (calendar :halign "center" :valign "center" :class "cal")
+)
+
+; === system info ===
+(defwidget system-info []
+    (box :orientation "h" :valign "center" :halign "middle" :space-evenly true
+      (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+        (circular-progress :start-angle 90 :thickness 20 :clockwise true :value {EWW_RAM.used_mem_perc})
+        "RAM"
+      )
+      (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+        (circular-progress :start-angle 90 :thickness 20 :clockwise true :value {EWW_CPU.avg})
+        "CPU"
+      )
+      (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+        (circular-progress :start-angle 90 :thickness 20 :clockwise true :value {(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100})
+        "DISK"
+      )
+      (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+        (circular-progress :start-angle 90 :thickness 20 :clockwise true :value battery)
+        "BAT"
+      )
+    )
+)
+
+; === updates menu ===
+(defwidget updates-menu []
+    (box :orientation "v" :valign "center" :halign "middle" :space-evenly false
+      "You have ${updates} updates"
+      (button :class "btn-shape btn-color${updates == 0 ? "-inactive" : ""} btn-big" :halign "center" :onclick "eww close updates; alacritty -e paru --noconfirm -Syu; sleep 1; ~/.config/eww/scripts/updates.sh" "get updates")
+    )
+)
+
+; === app search ===
+(defwidget searchapps []
+    (box :orientation "h" :space-evenly false :class "search-win" :valign "fill"
+      (centerbox :orientation "v" :class "sidemenu-btns"
+        (box :orientation "v" :space-evenly false
+          (button :valign "start" :class "btn" :onclick "eww close menu; eww open settings"                       (image :path "./icons/dark/settings.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; notify-send software 'opens software'"                       (image :path "./icons/dark/software.png" :image-height 23))
+        )
+        (box :orientation "v" :space-evenly false
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Documents &"                                    (image :path "./icons/dark/file.svg" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Downloads &"                                    (image :path "./icons/dark/downloads.svg" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Pictures &"                                     (image :path "./icons/dark/photos.svg" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Music &"                                        (image :path "./icons/dark/music.svg" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Videos &"                                       (image :path "./icons/dark/recorder.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu; nautilus ~/Desktop &"                                      (image :path "./icons/dark/desktop.png" :image-height 23))
+        )
+        (box :orientation "v"  :space-evenly false  :valign "end"
+          (button :valign "start" :class "btn" :onclick "systemctl shutdown"                                      (image :path "./icons/dark/shutdown.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "reboot"                                                  (image :path "./icons/dark/restart.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "killall wayfire"                                         (image :path "./icons/dark/logout.png" :image-height 23))
+          (button :valign "start" :class "btn" :onclick "eww close menu & swaylock -c 000000 & systemctl suspend &" (image :path "./icons/dark/moon.png" :image-height 23)); we need to close the menu so it does not steal our keyboard from swaylock
+        )
+      )
+      (box :orientation "v" :space-evenly false :class "search-win" :valign "fill" :halign "fill"
+        (literal :vexpand true :hexpand true :halign "fill" :valign "end" :class "app-container" :content search_listen)
+        (input :class "search-bar" :onchange "~/.config/eww/scripts/search.sh {}")
+        ; "TODO: app menu"
+      )
+      
+    )
+)
+
+; === metric with icon ===
+(defwidget imic [tooltip icon value onchange]
+  (box :space-evenly false :tooltip tooltip :orientation "h"
+    (image :path icon :image-height 18)
+    (metric :value value :onchange onchange :label "")
+  )
+)
+
+(defwidget imicRev [tooltip icon value onchange revealVar onclick orientation]
+	(eventbox
+		:onhover "eww update ${revealVar}=true"
+		:onhoverlost "eww update ${revealVar}=false"
+		:onclick "${onclick}"
+		(box :orientation "${orientation}" :vexpand "false" :hexpand "false" :spcae-evenly "false"
+			(image :path icon :image-height 18)
+			(revealer
+				:transition "slidedown"
+				:reveal revealVar
+				:duration "350ms"
+				(metric :value value :onchange onchange :label "" :orientation "v")
+			)
+		)
+	)
+)
+
+; === metric ===
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+; === notificutaions ===
+(defwidget notifucations []
+  "notifucations"  
+)
+
+; === wifi ===
+(defwidget wifi []
+  (box :orientation "v" :valign "fill" :halign "fill" :space-evenly false
+    (button :class "btn list-item" :halign "fill" :onclick "~/.config/eww/scripts/wifi.sh TOGGLE"
+      (label :class "bold" :halign "center" :text "WIFI - ${wifi-enabled == "true" ? "${wifi-name == "" ? "Not connected" : "Connected to ${wifi-name}"}" : "Off"}")
+    )
+    (literal :vexpand true :hexpand true :halign "fill" :valign "end" :class "wifi-container" :content wifi-networks)
+  )
+)
+
+; === bluetooth ===
+(defwidget bluetooth []
+  "Bluetooth"  
+)

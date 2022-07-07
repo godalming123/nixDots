@@ -1,0 +1,17 @@
+$c1  = 0xFF{color1.strip}
+$c2  = 0xFF{color2.strip}
+$c3  = 0xFF{color3.strip}
+$c4  = 0xFF{color4.strip}
+$c5  = 0xFF{color5.strip}
+$c6  = 0xFF{color6.strip}
+$c7  = 0xFF{color7.strip}
+$c8  = 0xFF{color8.strip}
+$c9  = 0xFF{color9.strip}
+$c10 = 0xFF{color10.strip}
+$c11 = 0xFF{color11.strip}
+$c12 = 0xFF{color12.strip}
+$c13 = 0xFF{color13.strip}
+$c14 = 0xFF{color14.strip}
+$c15 = 0xFF{color15.strip}
+$bg  = 0xFF{background.strip}
+$fg  = 0xFF{foreground.strip}

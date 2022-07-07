@@ -1,0 +1,21 @@
+colors:
+    primary:
+        background: "#2f343f"
+    # normal:
+        # black:   "#392236"
+        # red:     "#AC5473"
+        # green:   "#F69BC2"
+        # yellow:  "#FBBFDA"
+        # blue:    "#E976AB"
+        # magenta: "#8f6f8f" # needs changing
+        # cyan:    "#528b8b" #needs changing
+        # white:   "#FFFFFF"
+
+cursor:
+    style: Beam
+    unfocused_hollow: false
+
+live_config_reload: true
+
+window:
+  opacity: 0.7

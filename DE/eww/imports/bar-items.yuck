@@ -1,0 +1,154 @@
+; === center ===
+(defwidget centerStuff []
+  ;(revealer :transition "slideright" :reveal true :duration "150ms")
+    (button :tooltip "Menu - Show favouroute apps - super" :halign "start" :class "menu-button btn"
+            :onclick "eww close bluetooth updates sys-info notifucations wifi calendar; eww open --toggle menu & ./scripts/search.sh"
+      (image :path "./icons/dark/feather.png" :image-height 18)
+    )
+  ;)
+)
+
+; === left ===
+(defwidget leftStuff []
+  (box :orientation "h" :space-evenly false
+    (button :tooltip "Open system information menu" :class "btn" :onclick "eww close bluetooth updates menu notifucations calendar wifi; eww open --toggle sys-info"
+      (image :path "./icons/dark/more_vertical.png" :image-height 18)
+    )
+
+    ; ram
+    (imic :tooltip "RAM: ${EWW_RAM.used_mem_perc}%"
+          :icon "./icons/dark/ram.png"
+          :value {EWW_RAM.used_mem_perc}
+          :onchange ""
+
+)
+    ; cpu
+    (imic :tooltip "CPU: ${EWW_CPU.avg}%"
+          :icon "./icons/dark/cpu.svg"
+          :value {EWW_CPU.avg}
+          :onchange "")
+    ; disk
+    (imic :tooltip "Disk: ${(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100}%"
+          :icon "./icons/dark/disk.png"
+          :value {(EWW_DISK["/"].used / EWW_DISK["/"].total) * 100}
+          :onchange "")
+    ; battery
+    (imic :tooltip "${battery}% battery ${battery-status != "Discharging" ? "and charging" : ""}"
+          :icon "./icons/dark/battery${battery-status != "Discharging" ? "-charging" : ""}.png"
+          :value battery
+          :onchange "")
+    )
+)
+
+; === right ===
+(defwidget rightStuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    ; volume
+    (imic :tooltip "Volume: ${volume}%"
+          :icon "./icons/dark/volume.svg"
+          :value volume
+          :onchange "~/.config/eww/scripts/volume.sh set {}")
+    ; brightness
+    (imic :tooltip "Brightness: ${brightness}%"
+          :icon "./icons/dark/brightness.png"
+          :value brightness
+          :onchange "~/.config/eww/scripts/brightness.sh set {}")
+    ; wifi
+    (button :tooltip "${wifi-name == "" ? "Not connected" : "Connected to ${wifi-name} "}" :class "btn" :onclick "eww close bluetooth updates sys-info menu notifucations calendar; eww open --toggle wifi"
+        (image :path "${wifi-enabled == "true" ? "./icons/dark/wifi.png" : "./icons/dark/wifi-off.png"}" :image-height 18)
+    )
+    ; bluetooth
+    (button :tooltip "Bluetooth" :class "btn" :onclick "eww close updates sys-info menu notifucations calendar wifi; eww open --toggle bluetooth"
+        (image :path "./icons/dark/bluetooth.png" :image-height 18)
+    )
+    ; updates
+    ;${updates == 0 ? "" : ""}
+    (button :tooltip "You have ${updates} updates" :class "btn" :onclick "eww close bluetooth wifi sys-info menu notifucations calendar; eww open --toggle updates"
+      (box :orientation "h" :space-evenly false
+        (image :path "./icons/dark/downloads.svg" :image-height 14)
+        updates
+      )
+    )
+    ; calendar
+    (button :tooltip "The date is ${time}" :class "btn" :onclick "eww close bluetooth updates sys-info menu wifi notifucations; eww open --toggle calendar" time)
+    ; notifucations menu
+    (button :tooltip "shows notifucations"  :class "btn notifucations" :onclick "eww close bluetooth updates sys-info menu wifi calendar; eww open --toggle notifucations" "notifucations")
+  )
+)
+
+; === sidebar ===
+
+
+(defwidget leftSidebarStuff []
+  (box :orientation "v" :space-evenly false
+    (button :tooltip "Open system information menu" :class "btn" :onclick "eww close bluetooth updates menu notifucations calendar wifi; eww open --toggle sys-info"
+      (image :path "./icons/dark/more_vertical.png" :image-height 18)
+    )
+)
+)
+
+
+(defwidget centerSidebarStuff []
+  ;(revealer :transition "slideright" :reveal true :duration "150ms")
+    (button :tooltip "Menu - Show favouroute apps - super" :halign "start" :class "menu-button btn"
+            :onclick "eww close bluetooth updates sys-info notifucations wifi calendar; eww open --toggle menu & ./scripts/search.sh"
+      (image :path "./icons/dark/feather.png" :image-height 18)
+    )
+  ;)
+)
+
+(defwidget rightSidebarStuff []
+  (box :class "sidestuff" :orientation "v" :space-evenly false :halign "end"
+    ; volume
+    (imic :tooltip "Volume: ${volume}%"
+          :icon "./icons/dark/volume.svg"
+          :value volume
+          :onchange "~/.config/eww/scripts/volume.sh set {}")
+    ; brightness
+(eventbox :onhover "eww update bright=true"   
+  			:onhoverlost "eww update bright=false"
+  			(box    :orientation "v"  
+			  		:space-evenly "false"  
+					:spacing 2
+  			(revealer :transition "slideup" 
+			  		  :reveal bright   
+					  :duration "550ms"
+  			(scale
+			  	   :value brightness 
+				   :tooltip "Brightness: ${brightness}%" 
+				   :onchange "~/.config/eww/scripts/brightness.sh set {}" 
+				   :orientation "v" 
+				   :flipped true 
+				   :max 101 
+				   :min 0))
+  			(label :class "brightness-icon" 
+			  	   :text "brigh")))
+    (imicRev :tooltip "Brightness: ${brightness}%"
+          :icon "./icons/dark/brightness.png"
+          :value brightness
+			:revealVar "BrightnessOpen"
+			:onclick ""
+			:orientation "v"
+          :onchange "~/.config/eww/scripts/brightness.sh set {}")
+    ; wifi
+    (button :tooltip "${wifi-name == "" ? "Not connected" : "Connected to ${wifi-name} "}" :class "btn" :onclick "eww close bluetooth updates sys-info menu notifucations calendar; eww open --toggle wifi"
+        (image :path "${wifi-enabled == "true" ? "./icons/dark/wifi.png" : "./icons/dark/wifi-off.png"}" :image-height 18)
+    )
+    ; bluetooth
+    (button :tooltip "Bluetooth" :class "btn" :onclick "eww close updates sys-info menu notifucations calendar wifi; eww open --toggle bluetooth"
+        (image :path "./icons/dark/bluetooth.png" :image-height 18)
+    )
+    ; updates
+    ;${updates == 0 ? "" : ""}
+    (button :tooltip "You have ${updates} updates" :class "btn" :onclick "eww close bluetooth wifi sys-info menu notifucations calendar; eww open --toggle updates"
+      (box :orientation "h" :space-evenly false
+        (image :path "./icons/dark/downloads.svg" :image-height 14)
+        updates
+      )
+    )
+    ; calendar
+    (button :tooltip "The date is ${time}" :class "btn" :onclick "eww close bluetooth updates sys-info menu wifi notifucations; eww open --toggle calendar" time)
+    ; notifucations menu
+    (button :tooltip "shows notifucations"  :class "btn notifucations" :onclick "eww close bluetooth updates sys-info menu wifi calendar; eww open --toggle notifucations" "notifucations")
+  )
+)

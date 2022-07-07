@@ -1,0 +1,35 @@
+(defwidget settings-menu []
+  (box :valign "fill" :halign "fill" :space-evenly false :orientation "v"
+    ; === app header ===
+    (centerbox :orientation "h" :class "dialog-headerbar"
+      (image :path "./icons/dark/settings.png" :halign "start" :image-height 23)
+      (label :halign "center" :text "SETTINGS" :class "bold")
+      (button :halign "end" :class "btn round" :onclick "eww close settings" (image :path "./icons/dark/close.png" :image-height 15))
+    )
+    ; === app content ===
+    (box :space-evenly false :orientation "h"
+      ; = sidebar =
+      (box :width 200 :halign "fill" :valign "start" :space-evenly false :orientation "h"
+        (label :class "bold" :text "Sidebar")
+      )
+      ; = config page =
+      (box :valign "fill" :halign "fill" :space-evenly false :orientation "v"
+        (label :class "bold" :text "ABOUT")
+        (label :text "Bar + system info on desktop + menu + settings: eww
+WM:                                             wayfire
+Wallpaper:                                      https://wallpapercave.com/w/wp3363794
+")
+        (label :class "bold" :text "THEME DEMO")
+	(box :orientation "h" :space-evenly "false" :halign "center"
+          (cal)
+	  (box :orientation "v" :space-evenly "false"
+            (button :class "btn-shape btn-color" :onclick "notify-send -t 2000 Clicked 'You clicked my button'" "A button")
+            (button :class "btn-shape btn-color-inactive" :onclick "notify-send -t 2000 Clicked 'You clicked my inactive button. IMPOSSIBLE SURELY!'" "An inactive button")
+            (button :class "btn" :onclick "notify-send -t 2000 Clicked 'You clicked my bar button'" "A bar button button")
+            (metric :hexpand true :halign "fill" :value 50 :onchange "notify-send -t 500 'Value updated' 'you updated the value of the slider to {}%'" :label "slider")   
+          )
+	)
+      )
+    )
+  )
+)

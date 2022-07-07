@@ -1,0 +1,182 @@
+(include "./imports/bar-items.yuck")
+(include "./imports/background-widgets.yuck")
+(include "./imports/variables.yuck")
+(include "./imports/widgets.yuck")
+(include "./imports/settings-menu.yuck")
+
+; === define bar ===
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :width "100%"
+                      :height "30px"
+                      :anchor "bottom center")
+  :exclusive true
+  ;:stacking barStacking ; doesnt work
+  :stacking "fg"
+  (centerbox :orientation "h" :class "bar"
+    (leftStuff)
+    (centerStuff)
+    (rightStuff)
+  )
+)
+
+
+(defwindow sidebar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :height "100%"
+                      :widget "30px"
+                      :anchor "center right")
+  :exclusive true
+  ;:stacking barStacking ; doesnt work
+  :stacking "fg"
+  (centerbox :orientation "v" :class "bar"
+    (leftSidebarStuff)
+    (centerSidebarStuff)
+    (rightSidebarStuff)
+  )
+)
+
+; === define background information windows ===
+
+(defwindow time
+  :monitor 0
+  :geometry (geometry :width "310px"
+                      :height "340px"
+                      :anchor "top right"
+                      :y "30px"
+                      :x "30px")
+  :exclusive true
+  :stacking "bg"
+  (time-widget :class "bg-info")
+)
+
+(defwindow resorces
+  :monitor 0
+  :geometry (geometry :width "310px"
+                      :height "250px"
+                      :anchor "top right"
+                      :y "390px"
+                      :x "30px")
+  :exclusive true
+  :stacking "bg"
+  (resorces-widget)
+)
+
+; === define app menu ===
+
+(defwindow menu
+  :monitor 0
+  :geometry (geometry :width "200px"
+                      :height "500px"
+                      :anchor "bottom center"
+                      :y "10px"
+                      :x "0px")
+  :stacking "overlay"
+  :focusable true
+(searchapps))
+
+; === define calendar ===
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :width "240px"
+                      :height "160px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "40px")
+  :stacking "overlay"
+(cal))
+
+; === define updates window ===
+
+(defwindow updates
+  :monitor 0
+  :geometry (geometry :width "240px"
+                      :height "230px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "110px")
+  :stacking "overlay"
+(updates-menu))
+
+; === define notifucations window ===
+
+(defwindow notifucations
+  :monitor 0
+  :geometry (geometry :width "260px"
+                      :height "300px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "10px")
+  :stacking "overlay"
+(notifucations))
+
+; === define wifi window ===
+
+(defwindow wifi
+  :monitor 0
+  :geometry (geometry :width "260px"
+                      :height "100px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "148px")
+  :stacking "overlay"
+(wifi))
+
+
+; === define bluetooth window ===
+
+(defwindow bluetooth
+  :monitor 0
+  :geometry (geometry :width "260px"
+                      :height "300px"
+                      :anchor "bottom right"
+                      :y "10px"
+                      :x "118px")
+  :stacking "overlay"
+(bluetooth))
+
+; === window for wallpaper ===
+
+(defwindow background
+  :monitor 0
+  :geometry (geometry :width "100%"
+                      :height "100%"
+                      :anchor "center")
+  :stacking "bg"
+(box :class "background-image" :valign "fill" :halign "fill"))
+
+(defwindow background2
+  :monitor 1
+  :geometry (geometry :width "100%"
+                      :height "100%"
+                      :anchor "center")
+  :stacking "bg"
+(box :class "background-image" :valign "fill" :halign "fill"))
+
+; === window for system info ===
+
+(defwindow sys-info
+  :monitor 0
+  :geometry (geometry :width "200px"
+                      :height "65px"
+                      :anchor "bottom left"
+                      :y "10px"
+                      :x "10px")
+  :stacking "overlay"
+(system-info))
+
+; === define settings menu ===
+
+(defwindow settings
+  :monitor 0
+  :geometry (geometry :width "700px"
+                      :height "80%"
+                      :anchor "center center"
+            )
+  :stacking "overlay"
+  :focusable true
+(settings-menu))

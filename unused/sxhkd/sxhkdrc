@@ -1,0 +1,163 @@
+#1. Wm independent hotkeys
+	#1. terminal
+	#2. launcher
+	#3. screenshots
+	#4. relead sxhkd
+	#5. lock screen and sleep
+
+#2. Bspwm hotkeys
+	#1. General
+		#1. Quit bspwm to login screen
+		#2. close window
+		#3. Alternate between tiled and monocule layout
+		#4. send the newest marked node to the newest preselected node
+		#5. swap the current node and the biggest window
+	#2. State/flags
+		#1. Set window state
+		#2. Set the node flags
+	#3. Focus/swap
+		#1. move focus in given direction
+		#2. focus the node for the given path jump
+		#3. next/previous desktop in current moniter
+		#4. focus the last node/desktop
+		#5. focus the older or newer node in the focus history
+		#6. focus or send to the given desktop
+	#4. Preselect
+		#1. preselect the direction
+		#2. preselect the ratio
+		#3. cancel the preselection for the focused node
+		#4. cancel the preselection for the focused desktop
+	#5. Move/resize
+		#1. expand a window by moving one of its side outward
+		#2. contract a window by moving one of its side inward
+		#3. move a floating window
+
+# ---------------------------
+# 1. wm independent hotkeys
+# ---------------------------
+
+# 1. 1. terminal emulator --------
+super + Return
+	alacritty
+
+# 1. 2. program launcher --------
+super + e
+	rofi -show run
+
+# 1. 3. screenshots -------------
+super + p
+    flameshot gui
+
+# 1. 4. sxhkd relead --------
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# 1. 5. lock screen and sleep ----
+super + x
+	env dm-tool switch-to-greeter & systemctl -i suspend
+
+# -----------------------
+# 2. bspwm hotkeys
+# -----------------------
+
+#
+# 2. 1. general ------------
+#
+
+# 2. 1. 1. quit/restart bspwm ------
+super + shift + e
+	bspc {quit,wm -r}
+
+# 2. 1. 2. close and kill bspwm --
+super + {_,shift + }q
+	bspc node -{c,k}
+
+# 2. 1. 3. alternate between the tiled and monocle layout
+super + shift + f
+	bspc desktop -l next
+
+# 2. 1. 4. send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# 2. 1. 5. swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#
+# 2. 2. state/flags -------------------
+#
+
+# 2. 2. 1. set the window state
+super + {t,shift + j,k,l}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# 2. 2. 2. set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# 2. 3. focus/swap -----------
+#
+
+# 2. 3. 1. focus the node in the given direction
+super + {_,shift + }{w,a,s,d}
+	bspc node -{f,s} {north, west, south, east}
+
+# 2. 3. 2. focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# 2. 3. 3. focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# 2. 3. 4. focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# 2. 3. 5. focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# 2. 3. 6. focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# 2. 4. preselect ------------
+#
+
+# 2. 4. 1. preselect the direction
+super + ctrl + {w,a,s,d}
+	bspc node -p {north, west, south, east}
+	
+# 2. 4. 2. preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# 2. 4. 3. cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# 2. 4. 4. cancel the preselection for the focused desktop
+super + ctrl + Escape
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# 2. 5. move/resize ---------------
+#
+
+# 2. 5. 1. expand a window by moving one of its side outward
+super + alt + {w,a,s,d}
+	bspc node -z {top -20 0,left 0 20,bottom 0 -20,right 20 0}
+
+# 2. 5. 2. contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# 2. 5. 3. move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}

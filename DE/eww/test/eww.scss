@@ -1,0 +1,197 @@
+
+// === blue color scheme ===
+$bg: #2d343a;
+$fg: #b0b4bc;
+$grey-alt: #35404b;
+$grey: #3d464e;
+$inactive: #495055;
+$highlight: #81A1C1;
+$highlight-alt: #5d92c7;
+$highlight-alt-darken: #517fad;
+$highlight-2: #96ddc5;
+
+// === grey colors ===
+// $bg: #383838;
+// $fg: #c7c7c7;
+// $grey-alt: #4d4d4d;
+// $grey: #4b4b4b;
+// $highlight: #ffffff;
+// $highlight-alt: #ffffff;
+// $highlight-2: #d4d4d4;
+
+// === yellow color scheme ===
+// $bg: #101820;
+// $fg: #a5aaaf;
+// $grey-alt: #282f35;
+// $grey: #3c4349;
+// $highlight: #F2AA4C;
+// $highlight-alt: #ecb062;
+// $highlight-2: #eeb345;
+
+// === red color scheme ===
+// $bg: #2D2926;
+// $fg: #a09c99;
+// $grey-alt: #5a514a;
+// $grey: #46403c;
+// $highlight: #E94B3C;
+// $highlight-alt: #ecb062;
+// $highlight-2: #eeb345;
+
+// === teal color scheme ===
+// $bg: #222831;
+// $fg: #b0b4bc;
+// $grey-alt: #35404b;
+// $grey: #393E46;
+// $highlight: #5ddad5;
+// $highlight-alt: #5fc0bd;
+// $highlight-2: #A3F7BF;
+
+// === GENERAL STYLES ===
+
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+.bold {
+  font-weight: bold;
+}
+
+@mixin trans {
+  transition: 300ms;
+}
+
+.bar {
+  background-color: $bg;
+  color: $fg;
+}
+
+window:not(.bar), tooltip {
+	  background-color: $grey;
+	  padding: 10px;
+	  border-radius: 10px;
+}
+
+.sidemenu-btns button {
+  border-radius: 99px;
+  margin: 1px;
+  padding: 1px;
+  // aspect-ratio: 1/1;
+}
+
+// === BACKGROUND IMAGE ===
+
+.background-image {
+  background-image: url("./wallpapers/windows-11-dark.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+// === DIALOG ===
+
+.dialog-headerbar {
+  padding: 0 5px;
+  & > button {
+    border-radius: 99px;
+    min-width: 20px;
+  }
+}
+
+// === CLOCK + CALENDER ===
+
+calendar {
+	padding: 5px 0;
+  &:selected {
+    background: $highlight-alt;
+    border-radius: 50px;
+    min-height: 20px;
+  }
+  & > * {
+    border-radius: 50px;
+    min-height: 20px;
+    // padding: 50px 10px 100px 30px;
+  }
+  &:hover {
+    background: $grey-alt;
+  }
+}
+
+.time_hour, .time_min {
+	color: $highlight;
+	font-size : 75px;
+	font-weight : bold;
+}
+.time_hour {
+	margin : 0px 0px 0px 25px;
+}
+.time_min {
+	margin : 0px 0px 0px 25px;
+}
+
+.time_mer {
+	color: $highlight-alt;
+	font-size : 43px;
+	font-weight : bold;
+	margin : 0px 0px 0px 0px;
+}
+
+.time_day {
+	color: $highlight-2;
+	font-size : 25px;
+	font-weight : normal;
+	margin : 0px 0px 0px 0px;
+}
+
+// === BUTTONS ===
+
+.btn {
+  @include trans();
+  padding: 1 5;
+  &:hover, &:focus {
+    background-color: $grey-alt;
+  }
+}
+
+.btn-big {
+  padding: 8px;
+  margin: 5px;
+}
+
+.btn-shape {
+  @include trans();
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+}
+
+.btn-color {
+  background: $highlight-alt;
+  &:hover {
+    background: $highlight-alt-darken;
+  }
+}
+
+.btn-color-inactive {
+  background: $inactive;
+  opacity: 0.8;
+}
+
+// === SLIDERS ===
+.metric scale trough highlight {
+  background-color: $highlight;
+  border-radius: 50px;
+}
+.metric scale trough {
+  background-color: $grey;
+  border-radius: 50px;
+  min-height: 5px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 20px;
+  @include trans();
+  &:hover {
+     min-height: 10px;
+  }
+}
+
+
