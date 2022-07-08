@@ -38,7 +38,7 @@
   security.doas = {
     enable = true;
     extraRules = [{
-      users = ["whatever"];
+      users = ["whatev" "whatever"];
       keepEnv = true;
       persist = true;
     }];
@@ -49,11 +49,18 @@
   #programs.bash.enable = false;
 
   # === SERVICES ===
-  #services.tlp.enable = true;
+  services.tlp.enable = true;
 
   # === AUTOMATIC REMOVAL OF OLD GENERATIONS ===
   nix.gc = {
     automatic = true;
     options = "--delete-older-than 1d";
+  };
+
+  # === SOUND ===
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
   };
 }

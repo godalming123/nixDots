@@ -8,7 +8,7 @@ set desktopTty /dev/tty1
 set terminalTty /dev/tty2
 
 if test $ttyVar = $desktopTty # if we are running in tty
-	#Hyprland
+	Hyprland
 end
 
 if test $ttyVar = $terminalTty # if we are running in second tty
