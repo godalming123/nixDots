@@ -32,9 +32,18 @@
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "22.05";
   system.autoUpgrade.enable = true;
+
+  # flakes
+  #nix = {
+  #  package = pkgs.nixUnstable; # or versioned attributes like nixVersions.nix_2_8
+  #  extraOptions = ''
+  #    experimental-features = nix-command flakes
+  #  '';
+  #};
   
   # software configs
   programs.fish.enable = true;
+  #virtualisation.docker.enable = true;
   security.doas = {
     enable = true;
     extraRules = [{
@@ -49,18 +58,19 @@
   #programs.bash.enable = false;
 
   # === SERVICES ===
-  services.tlp.enable = true;
+  services = {
+    auto-cpufreq.enable = true;
+    tlp.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+    };
+  };
 
   # === AUTOMATIC REMOVAL OF OLD GENERATIONS ===
   nix.gc = {
     automatic = true;
     options = "--delete-older-than 1d";
-  };
-
-  # === SOUND ===
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
   };
 }
