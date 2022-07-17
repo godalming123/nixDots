@@ -16,10 +16,14 @@ vim.opt.laststatus = 3
 
 vim.cmd([[
 call plug#begin()
+        Plug 'nvim-lua/plenary.nvim' " random dependencys yay!
+				Plug 'nvim-telescope/telescope.nvim' " search fuzzy finder
 				Plug 'kyazdani42/nvim-web-devicons' " font icons
 				Plug 'preservim/nerdtree' " file tree
 				Plug 'https://github.com/preservim/tagbar' " tagbar for code navigation
 				Plug 'feline-nvim/feline.nvim' " status line
+				Plug 'lewis6991/gitsigns.nvim' " git things
+				Plug 'ziontee113/icon-picker.nvim'
 				" Plug 'prettier/vim-prettier' " pretifier - not working
 
 				" completion:
@@ -32,5 +36,4 @@ call plug#begin()
 				Plug 'tpope/vim-commentary' " For Commenting gcc & gc
 call plug#end()
 ]])
-
 

@@ -1,3 +1,4 @@
+#!/bin/sh
 
 help_text="Volume - manage volume
 ================================================
