@@ -1,6 +1,6 @@
 " === KEYBINDS ===
 
-" nnoremap <C-t> :TagbarOpen<CR>
+nnoremap <C-f> :TagbarOpenAutoClose<CR>
 nnoremap <C-n> :NERDTreeFocus<CR>
 nnoremap <C-t> :vsplit <bar> terminal <CR>
 
