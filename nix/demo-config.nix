@@ -1,6 +1,6 @@
-# ======================================
-# === A DEMO CONFIG TO SETUP MY DOTS ===
-# ======================================
+# =========================
+# === DEMO NIXOS CONFIG ===
+# =========================
 
 # === CONFIGURATION VARS ===
 { config, pkgs, ... }:
@@ -18,11 +18,20 @@
     networkmanager.enable = true;
   };
 
+  
+  # flakes
+  #nix = {
+  #  package = pkgs.nixUnstable; # or versioned attributes like nixVersions.nix_2_8
+  #  extraOptions = ''
+  #    experimental-features = nix-command flakes
+  #  '';
+  #};
+
   # === USERS ===
   users.users.whatever = {
     isNormalUser = true;
     description = "My main user";
-    extraGroups = [ "networkmanager" "audio" "docker" "video"];
+    extraGroups = [ "networkmanager" "audio" "video"];
     packages = with pkgs; [];
   };
   users.users.root.shell = "/run/current-system/sw/bin/nologin";
@@ -49,11 +58,17 @@
 	waybar
 	wofi
 	pamixer
+	gnome3.adwaita-icon-theme
+	universal-ctags
+	nodePackages.pyright
+	wl-clipboard
+	tldr
   ];
 
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = false;
+    #desktopManager.gnome.enable = true;
   };
 
   #fonts
@@ -70,6 +85,7 @@
       ln -sf /home/whatever/nixDots/DE/hypr/   /home/whatever/.config/
       ln -sf /home/whatever/nixDots/shell/nvim /home/whatever/.config/
       ln -sf /home/whatever/nixDots/DE/wofi/   /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/DE/waybar/ /home/whatever/.config/
       '';
       deps = [];
     };
