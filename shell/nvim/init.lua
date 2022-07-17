@@ -23,7 +23,8 @@ call plug#begin()
 				Plug 'https://github.com/preservim/tagbar' " tagbar for code navigation
 				Plug 'feline-nvim/feline.nvim' " status line
 				Plug 'lewis6991/gitsigns.nvim' " git things
-				Plug 'ziontee113/icon-picker.nvim'
+				Plug 'ziontee113/icon-picker.nvim' " icon picker
+				Plug 'stevearc/dressing.nvim' " custom vim ui
 				" Plug 'prettier/vim-prettier' " pretifier - not working
 
 				" completion:

@@ -6,6 +6,9 @@
 - `I`: insert an icon
 - `ctrl` + `s`: search files in workspace
 - `H`: search help manuals
+### Comments
+- use `gcc` to comment lines in normal mode
+- use `gc` to comment lines in visual mode
 ## Behaviors
 I have designed this setup to stay out of my way so I can just edit code.
 ## Help
