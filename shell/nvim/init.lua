@@ -10,7 +10,7 @@ vim.opt.mouse='va'
 vim.opt.splitright=true
 vim.opt.ttyfast = true
 vim.cmd("set clipboard+=unnamedplus")
-vim.opt.laststatus = 3
+-- vim.opt.laststatus = 3
 
 -- === VIM PLUG ===
 
@@ -26,6 +26,7 @@ call plug#begin()
 				Plug 'ziontee113/icon-picker.nvim' " icon picker
 				Plug 'stevearc/dressing.nvim' " custom vim ui
 				" Plug 'prettier/vim-prettier' " pretifier - not working
+				Plug 'shaunsingh/nord.nvim' " nore theme
 
 				" completion:
 				Plug 'neovim/nvim-lspconfig'

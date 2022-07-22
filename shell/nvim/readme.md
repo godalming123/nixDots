@@ -9,6 +9,8 @@
 ### Comments
 - use `gcc` to comment lines in normal mode
 - use `gc` to comment lines in visual mode
+### Splits
+- use `ctrl` + `h, j, k, l` to change split focus
 ## Behaviors
 I have designed this setup to stay out of my way so I can just edit code.
 ## Help

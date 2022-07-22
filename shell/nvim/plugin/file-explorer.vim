@@ -8,8 +8,13 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 
 
 " Attempt to Change cursor when nerdtree is focused
-" augroup NERDTreeCursor
-				" autocmd BufLeave NERD_tree* set guicursor=
+highlight! Cursor guibg=#ffffff guifg=#000000
+set guicursor=n-v:block-Cursor
+
+augroup NERDTreeCursor
+				autocmd BufLeave NERD_tree* hi Cursor blend=0
+				autocmd BufEnter NERD_tree* hi Cursor blend=100
+
 
 let NERDTreeQuitOnOpen = 1
 let NERDTreeShowHidden=1

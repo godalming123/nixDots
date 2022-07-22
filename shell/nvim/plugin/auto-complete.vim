@@ -1,25 +1,35 @@
-" gray
-highlight! CmpItemAbbrDeprecated guibg=#000000 gui=strikethrough guifg=#808080
-" blue
-highlight! CmpItemAbbrMatch guibg=#000000 guifg=#569CD6
-highlight! CmpItemAbbrMatchFuzzy guibg=#000000 guifg=#569CD6
-" light blue
-highlight! CmpItemKindVariable guibg=#000000 guifg=#569CD6
-highlight! CmpItemKindInterface guibg=#000000 guifg=#569CD6
-highlight! CmpItemKindText guibg=#000000 guifg=#569CD6
-" pink
-highlight! CmpItemKindFunction guibg=#000000 guifg=#569CD6
-highlight! CmpItemKindMethod guibg=#000000 guifg=#569CD6
-" front
-highlight! CmpItemKindKeyword guibg=#000000 guifg=#569CD6
-highlight! CmpItemKindProperty guibg=#000000 guifg=#569CD6
-highlight! CmpItemKindUnit guibg=#000000 guifg=#569CD6
-
 " === COMPLETION ===
-
 set completeopt=menu,menuone
 
-lua <<EOF
+lua << EOF
+local cmp_kinds = {
+  Text = '',
+  Method = '',
+  Function = '',
+  Constructor = '',
+  Field = '',
+  Variable = '',
+  Class = 'ﴯ',
+  Interface = '',
+  Module = '',
+  Property = 'ﰠ',
+  Unit = '',
+  Value = '',
+  Enum = '',
+  Keyword = '',
+  Snippet = '',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = '',
+  Event = '',
+  Operator = '',
+  TypeParameter = ''
+}
+
   -- Setup nvim-cmp.
   local cmp = require'cmp'
 
@@ -34,6 +44,13 @@ lua <<EOF
         -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       end,
     },
+		  formatting = {
+    fields = { "kind", "abbr" },
+    format = function(_, vim_item)
+      vim_item.kind = cmp_kinds[vim_item.kind] or ""
+      return vim_item
+    end,
+  },
     window = {
       -- completion = cmp.config.window.bordered(),
       -- documentation = cmp.config.window.bordered(),
@@ -90,6 +107,7 @@ lua <<EOF
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 	require'lspconfig'.pyright.setup{}
+	require'lspconfig'.sumneko_lua.setup{}
 EOF
 
 
