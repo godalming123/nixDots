@@ -3,7 +3,8 @@
 local opts = { noremap = false, silent = true }
 vim.keymap.set("n", "T", "<cmd>TagbarOpenAutoClose<cr>",opts)
 vim.keymap.set("n", "<C-n>", "<cmd>NERDTreeFocus<cr>",opts)
-vim.keymap.set("n", "<C-t>", "<cmd>vsplit <bar> terminal <cr>",opts)
+-- vim.keymap.set("n", "<>", "<cmd>vsplit <bar> terminal <cr>",opts)
+vim.keymap.set("n", "<C-t>", "<cmd> FloatermToggle <cr>",opts)
 vim.keymap.set("n", "I", "<cmd>PickEverythingInsert<cr>", opts)
 vim.keymap.set("n", "<C-s>", "<cmd>Telescope find_files<cr>", opts)
 vim.keymap.set("n", "H", "<cmd>Telescope help_tags<cr>", opts)

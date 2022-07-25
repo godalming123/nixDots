@@ -1,5 +1,7 @@
 -- === GENERAL ===
 
+local vim = vim -- if I define vim here I only get one undefined global vim instead of 13
+
 vim.opt.tgc = true
 vim.opt.number = true
 vim.opt.autoindent = true
@@ -26,7 +28,9 @@ call plug#begin()
 				Plug 'ziontee113/icon-picker.nvim' " icon picker
 				Plug 'stevearc/dressing.nvim' " custom vim ui
 				" Plug 'prettier/vim-prettier' " pretifier - not working
-				Plug 'shaunsingh/nord.nvim' " nore theme
+				Plug 'shaunsingh/nord.nvim' " nord theme
+	      Plug 'voldikss/vim-floaterm' " popup terminal
+	      Plug 'Pocco81/AutoSave.nvim' " autosave
 
 				" completion:
 				Plug 'neovim/nvim-lspconfig'

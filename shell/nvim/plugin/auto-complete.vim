@@ -108,6 +108,7 @@ local cmp_kinds = {
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 	require'lspconfig'.pyright.setup{}
 	require'lspconfig'.sumneko_lua.setup{}
+	require'lspconfig'.gopls.setup{}
 EOF
 
 
