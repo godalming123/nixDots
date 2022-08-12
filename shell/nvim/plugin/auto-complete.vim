@@ -109,6 +109,8 @@ local cmp_kinds = {
 	require'lspconfig'.pyright.setup{}
 	require'lspconfig'.sumneko_lua.setup{}
 	require'lspconfig'.gopls.setup{}
+	require'lspconfig'.html.setup{}
+	require'lspconfig'.cssls.setup{}
 EOF
 
 

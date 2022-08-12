@@ -76,6 +76,9 @@ if status is-interactive
     # = other aliases =
     # alias fish_prompt='fish ' #this is supposed to reload fish with staring the greeting
 		alias nv='nvim'
+		alias trash='trash-put'
+		alias restore='trash-restore'
+		alias rm='echo "Please use trash (trash-put) the terminal has to much power and must be constrained!"'
 		
 		# === ADD KEYBINDS ===
 		bind \cq 'exit'
