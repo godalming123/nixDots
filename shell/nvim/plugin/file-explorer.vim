@@ -6,12 +6,12 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
-
-" Attempt to Change cursor when nerdtree is focused
+" Change cursor when nerdtree is focused
 highlight! Cursor guibg=#ffffff guifg=#000000
-set guicursor=n-v:block-Cursor
+set guicursor=a:bar-Cursor
+set guicursor=i-ci:ver30-Cursor
 
-augroup NERDTreeCursor
+augroup NerdTreeCursor
 				autocmd BufLeave NERD_tree* hi Cursor blend=0
 				autocmd BufEnter NERD_tree* hi Cursor blend=100
 

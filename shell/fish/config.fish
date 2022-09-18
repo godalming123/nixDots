@@ -18,6 +18,7 @@ end
 # ====================
 # === HELPER FUNCS ===
 # ====================
+
 function round
     echo (math (math -s1 $argv/10) x 10)
 end
@@ -83,6 +84,10 @@ if status is-interactive
 		# === ADD KEYBINDS ===
 		bind \cq 'exit'
 		bind \cs 'systemctl suspend'
+    
+		# === EDITOR ===
+    set EDITOR nv
+
 end
 
 # =====================
