@@ -1,16 +1,30 @@
-# =========================
-# === DEMO NIXOS CONFIG ===
-# =========================
+# ===============================
+# === GODALMINGS NIXOS CONFIG ===
+# ===============================
 
 # === CONFIGURATION VARS ===
-{ config, pkgs, ... }:
+{ config, pkgs, ... }: let
+  flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
+  hyprland = (import flake-compat {
+    src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
+  }).defaultNix;
+in {
+  nixpkgs.overlays = [ hyprland.overlays.default ];
 
-{
+  programs.hyprland = {
+    enable = true;
+    package = pkgs.hyprland;
+  };
+  
   # === IMPORTS ===
   imports = [
     ./hardware-configuration.nix
     /home/whatever/nixDots/nix/other-options.nix
+    hyprland.nixosModules.default
   ];
+
+  # === BLUETOOTH ===
+  hardware.bluetooth.enable = true;
 
   # === NETWORKING ===
   networking = {
@@ -18,20 +32,18 @@
     networkmanager.enable = true;
   };
 
-  
   # flakes
-  #nix = {
-  #  package = pkgs.nixUnstable; # or versioned attributes like nixVersions.nix_2_8
-  #  extraOptions = ''
-  #    experimental-features = nix-command flakes
-  #  '';
-  #};
+  nix = {
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   # === USERS ===
   users.users.whatever = {
     isNormalUser = true;
     description = "My main user";
-    extraGroups = [ "networkmanager" "audio" "video"];
+    extraGroups = [ "networkmanager" "audio" "video" "input"];
     packages = with pkgs; [];
   };
   users.users.root.shell = "/run/current-system/sw/bin/nologin";
@@ -40,29 +52,40 @@
   # === SOFTWARE ===
   # software packadges
   environment.systemPackages = with pkgs; [
-	neovim
-	fish
-	btop
-	doas
-	git
-	gh
-	hyprland
-	wget
-	pfetch
-	firefox-wayland
-	#kitty
-	alacritty
-	swaylock
-	killall
-	light
-	waybar
-	wofi
-	pamixer
-	gnome3.adwaita-icon-theme
-	universal-ctags
-	nodePackages.pyright
-	wl-clipboard
-	tldr
+        # = SHELL SOFTWARE =
+				neovim
+				fish
+				btop
+				doas
+				git
+				gh
+				wget
+				pfetch
+				killall
+				light
+				tldr
+				wl-clipboard
+				pamixer
+				trash-cli
+				#wine-wayland
+				# = GUI SOFTWARE =
+				#hyprland
+				gnome.nautilus
+				firefox-wayland
+				alacritty
+				swaylock
+				waybar
+				wofi
+				# = DEPENDENCYS =
+				gnome3.adwaita-icon-theme
+				libinput
+				# for neovim
+				universal-ctags
+				nodePackages.pyright # lsp for python
+				nodePackages.vscode-langservers-extracted # lsp servers for html css json and eslint
+				sumneko-lua-language-server # lsp for lua
+				gopls # lsp for go
+				nodePackages.firebase-tools # firebase command line tools
   ];
 
   services.xserver = {
@@ -80,12 +103,13 @@
   system.activationScripts = {
     dotfiles = {
       text = ''
-      ln -sf /home/whatever/nixDots/shell/fish /home/whatever/.config/
-      ln -sf /home/whatever/nixDots/shell/btop /home/whatever/.config/
-      ln -sf /home/whatever/nixDots/DE/hypr/   /home/whatever/.config/
-      ln -sf /home/whatever/nixDots/shell/nvim /home/whatever/.config/
-      ln -sf /home/whatever/nixDots/DE/wofi/   /home/whatever/.config/
-      ln -sf /home/whatever/nixDots/DE/waybar/ /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/shell/fish               /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/shell/btop               /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/DE/hypr/                 /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/shell/nvim               /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/DE/wofi/                 /home/whatever/.config/
+      #ln -sf /home/whatever/nixDots/DE/waybar/               /home/whatever/.config/
+      ln -sf /home/whatever/nixDots/basicPrograms/alacritty/ /home/whatever/.config/
       '';
       deps = [];
     };
